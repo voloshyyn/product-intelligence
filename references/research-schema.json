@@ -1,0 +1,1104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://product-intelligence.local/research-schema/1.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mode": {
+      "enum": [
+        "single",
+        "competitor",
+        "comparison"
+      ]
+    },
+    "depth": {
+      "enum": [
+        "quick",
+        "standard",
+        "deep"
+      ]
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]+)*$"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 12000
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://[^\\s]+$"
+          },
+          "industry": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "market": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "product_id",
+          "name",
+          "url",
+          "industry",
+          "market"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "custom_criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "criterion_id",
+          "label",
+          "question"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "category": {
+            "enum": [
+              "overview",
+              "positioning",
+              "audience",
+              "needs",
+              "features",
+              "services",
+              "pricing",
+              "business",
+              "marketing",
+              "journeys",
+              "usability",
+              "design",
+              "accessibility",
+              "trust",
+              "strategy"
+            ]
+          },
+          "evaluation": {
+            "enum": [
+              "EVALUATED",
+              "NOT_APPLICABLE",
+              "NOT_EVALUATED"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "product_id",
+          "category",
+          "evaluation",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 15
+    },
+    "custom_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "evaluation": {
+            "enum": [
+              "EVALUATED",
+              "NOT_APPLICABLE",
+              "NOT_EVALUATED"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "product_id",
+          "criterion_id",
+          "evaluation",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "category": {
+            "enum": [
+              "overview",
+              "positioning",
+              "audience",
+              "needs",
+              "features",
+              "services",
+              "pricing",
+              "business",
+              "marketing",
+              "journeys",
+              "usability",
+              "design",
+              "accessibility",
+              "trust",
+              "strategy",
+              "custom"
+            ]
+          },
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "assertion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "status": {
+            "enum": [
+              "VERIFIED",
+              "PARTIALLY_VERIFIED",
+              "HYPOTHESIS",
+              "UNVERIFIED",
+              "NOT_ACCESSIBLE"
+            ]
+          },
+          "evidence_type": {
+            "enum": [
+              "official_statement",
+              "independent_report",
+              "browser_observation",
+              "screenshot",
+              "inference",
+              "none"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true
+          },
+          "screenshot_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true
+          },
+          "date_checked": {
+            "type": "string",
+            "format": "date"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 12000
+          },
+          "caveat": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "company_statement": {
+            "type": "boolean"
+          },
+          "facet": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "value": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ],
+            "maxLength": 12000
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "billing_period": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "polarity": {
+            "enum": [
+              "strength",
+              "weakness",
+              "neutral"
+            ]
+          }
+        },
+        "required": [
+          "claim_id",
+          "product_id",
+          "category",
+          "assertion",
+          "status",
+          "evidence_type",
+          "source_ids",
+          "screenshot_ids",
+          "date_checked",
+          "confidence",
+          "notes",
+          "company_statement"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "category": {
+            "enum": [
+              "overview",
+              "positioning",
+              "audience",
+              "needs",
+              "features",
+              "services",
+              "pricing",
+              "business",
+              "marketing",
+              "journeys",
+              "usability",
+              "design",
+              "accessibility",
+              "trust",
+              "strategy",
+              "custom"
+            ]
+          },
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "assertion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "status": {
+            "enum": [
+              "VERIFIED",
+              "PARTIALLY_VERIFIED",
+              "HYPOTHESIS",
+              "UNVERIFIED",
+              "NOT_ACCESSIBLE"
+            ]
+          },
+          "evidence_type": {
+            "enum": [
+              "official_statement",
+              "independent_report",
+              "browser_observation",
+              "screenshot",
+              "inference",
+              "none"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true
+          },
+          "screenshot_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true
+          },
+          "date_checked": {
+            "type": "string",
+            "format": "date"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 12000
+          },
+          "caveat": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "company_statement": {
+            "type": "boolean"
+          },
+          "facet": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "value": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ],
+            "maxLength": 12000
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "currency": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "billing_period": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "polarity": {
+            "enum": [
+              "strength",
+              "weakness",
+              "neutral"
+            ]
+          }
+        },
+        "required": [
+          "claim_id",
+          "product_id",
+          "category",
+          "assertion",
+          "status",
+          "evidence_type",
+          "source_ids",
+          "screenshot_ids",
+          "date_checked",
+          "confidence",
+          "notes",
+          "company_statement"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://[^\\s]+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "provenance": {
+            "enum": [
+              "official",
+              "independent",
+              "user_report",
+              "observation"
+            ]
+          },
+          "access": {
+            "enum": [
+              "ACCESSED",
+              "NOT_ACCESSIBLE"
+            ]
+          },
+          "date_checked": {
+            "type": "string",
+            "format": "date"
+          },
+          "excerpt": {
+            "type": "string",
+            "maxLength": 6000
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "source_id",
+          "product_id",
+          "url",
+          "title",
+          "provenance",
+          "access",
+          "date_checked",
+          "excerpt",
+          "locator",
+          "method",
+          "notes"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "screenshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "screenshot_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https?://[^\\s]+$"
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "caption": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "viewport": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "screenshot_id",
+          "product_id",
+          "path",
+          "source_url",
+          "captured_at",
+          "caption",
+          "viewport",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "journeys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "journey_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "goal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "method": {
+            "enum": [
+              "browser",
+              "desk"
+            ]
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "tested_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "outcome": {
+            "enum": [
+              "completed",
+              "blocked",
+              "not_tested"
+            ]
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "order": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "action": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12000
+                },
+                "expected": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12000
+                },
+                "observed": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12000
+                },
+                "claim_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "order",
+                "action",
+                "expected",
+                "observed",
+                "claim_ids"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "journey_id",
+          "product_id",
+          "goal",
+          "method",
+          "tool",
+          "tested_at",
+          "outcome",
+          "steps",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "ux_issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "claim_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "severity": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "user_goal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "surface": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "heuristic": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "frequency_signal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "recommendation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "issue_id",
+          "product_id",
+          "claim_id",
+          "severity",
+          "user_goal",
+          "surface",
+          "heuristic",
+          "frequency_signal",
+          "recommendation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "product_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "hypothesis_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "basis_claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true
+          },
+          "priority": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "effort": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "next_test": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "product_id",
+          "hypothesis_id",
+          "basis_claim_ids",
+          "priority",
+          "impact",
+          "effort",
+          "next_test"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conflict_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "claim_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,100}$"
+            },
+            "uniqueItems": true,
+            "minItems": 2
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "conflict_id",
+          "claim_ids",
+          "explanation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comparison_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          },
+          "category": {
+            "enum": [
+              "overview",
+              "positioning",
+              "audience",
+              "needs",
+              "features",
+              "services",
+              "pricing",
+              "business",
+              "marketing",
+              "journeys",
+              "usability",
+              "design",
+              "accessibility",
+              "trust",
+              "strategy",
+              "custom"
+            ]
+          },
+          "criterion_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "cells": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                },
+                "claim_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_-]{1,100}$"
+                }
+              },
+              "required": [
+                "product_id",
+                "claim_id"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 2
+          },
+          "caveats": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12000
+          }
+        },
+        "required": [
+          "comparison_id",
+          "label",
+          "category",
+          "cells",
+          "caveats"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "summary_claim_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_-]{1,100}$"
+      },
+      "uniqueItems": true
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 12000
+      },
+      "minItems": 0
+    },
+    "tools": {
+      "type": "object",
+      "properties": {
+        "browser_available": {
+          "type": "boolean"
+        },
+        "browser_tested": {
+          "type": "boolean"
+        },
+        "browser_name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        }
+      },
+      "required": [
+        "browser_available",
+        "browser_tested",
+        "browser_name",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "standard_categories": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "overview",
+              "positioning",
+              "audience",
+              "needs",
+              "features",
+              "services",
+              "pricing",
+              "business",
+              "marketing",
+              "journeys",
+              "usability",
+              "design",
+              "accessibility",
+              "trust",
+              "strategy"
+            ]
+          },
+          "minItems": 15
+        },
+        "custom_criterion_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,100}$"
+          },
+          "uniqueItems": true
+        },
+        "source_strategy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12000
+        }
+      },
+      "required": [
+        "standard_categories",
+        "custom_criterion_ids",
+        "source_strategy"
+      ],
+      "additionalProperties": false
+    },
+    "report_labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 12000
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "started_at",
+    "completed_at",
+    "mode",
+    "depth",
+    "language",
+    "scope",
+    "products",
+    "custom_criteria",
+    "coverage",
+    "custom_results",
+    "claims",
+    "hypotheses",
+    "sources",
+    "screenshots",
+    "journeys",
+    "ux_issues",
+    "opportunities",
+    "conflicts",
+    "comparisons",
+    "summary_claim_ids",
+    "limitations",
+    "tools",
+    "plan"
+  ],
+  "additionalProperties": false
+}
